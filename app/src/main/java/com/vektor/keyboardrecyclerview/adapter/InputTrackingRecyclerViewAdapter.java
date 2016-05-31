@@ -30,17 +30,11 @@ public abstract class InputTrackingRecyclerViewAdapter<VH extends RecyclerView.V
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 RecyclerView.LayoutManager lm = recyclerView.getLayoutManager();
 
-                if(mRecyclerView.findViewHolderForAdapterPosition(mSelectedItem)==null)
-                    return false;
-
-
-                View view = mRecyclerView.findViewHolderForAdapterPosition(mSelectedItem).itemView;
-
                 // Return false if scrolled to the bounds and allow focus to move off the list
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if (isConfirmButton(event)) {
                         if ((event.getFlags() & KeyEvent.FLAG_LONG_PRESS) == KeyEvent.FLAG_LONG_PRESS) {
-                            view.performLongClick();
+                            mRecyclerView.findViewHolderForAdapterPosition(mSelectedItem).itemView.performLongClick();
                         } else {
                             event.startTracking();
                         }
@@ -56,7 +50,7 @@ public abstract class InputTrackingRecyclerViewAdapter<VH extends RecyclerView.V
                 }
                 else if(event.getAction() == KeyEvent.ACTION_UP && isConfirmButton(event)
                         && ((event.getFlags() & KeyEvent.FLAG_LONG_PRESS) != KeyEvent.FLAG_LONG_PRESS)){
-                    view.performClick();
+                    mRecyclerView.findViewHolderForAdapterPosition(mSelectedItem).itemView.performClick();
                     return true;
                 }
                 return false;
